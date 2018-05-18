@@ -14,6 +14,6 @@ public class CorpServiceImpl implements CorpService {
 
     @Override
     public CorpPO getCorpByKey(Integer org, Integer id, Integer seqId) {
-        return corpDao.findByCorpKeyOrg(org);
+        return corpDao.findByCorpKeyOrgAndCorpKeyIdAndCorpKeySeqId(org,id,seqId);
     }
 }

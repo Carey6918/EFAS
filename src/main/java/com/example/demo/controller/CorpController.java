@@ -15,7 +15,6 @@ public class CorpController {
 
     @RequestMapping("/info")
     public ResultBundle<CorpPO> index(int org, int id, int seqId) {
-        System.out.println(org);
         CorpPO po = corpService.getCorpByKey(org, id, seqId);
         if (po != null)
             return new ResultBundle(po);

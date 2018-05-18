@@ -7,6 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface CorpDao extends JpaRepository<CorpPO,CorpKey> {
-    CorpPO findByCorpKeyOrg(Integer org);
+    CorpPO findByCorpKeyOrgAndCorpKeyIdAndCorpKeySeqId(Integer org,Integer id,Integer seqId);
     List<CorpPO> findByCorpName(String name);
 }
