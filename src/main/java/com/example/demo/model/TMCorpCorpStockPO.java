@@ -1,9 +1,6 @@
 package com.example.demo.model;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
@@ -15,6 +12,7 @@ public class TMCorpCorpStockPO {
     private Integer subOrg;
     private Integer subId;
     private Integer subSeqId;
+    private Integer selfId;
 
     @Basic
     @Column(name = "ID")
@@ -93,5 +91,15 @@ public class TMCorpCorpStockPO {
     public int hashCode() {
 
         return Objects.hash(id, seqId, org, subOrg, subId, subSeqId);
+    }
+    @Id
+    @Basic
+    @Column(name = "SELF_ID")
+    public Integer getSelfId() {
+        return selfId;
+    }
+
+    public void setSelfId(Integer selfId) {
+        this.selfId = selfId;
     }
 }

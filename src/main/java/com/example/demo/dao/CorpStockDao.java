@@ -8,6 +8,6 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface CorpStockDao extends JpaRepository<CorpStockPO,CorpKey> {
-    @Query(value = "select b from CorpStockPO b where b.price>?1 and b.price<?2")
+    @Query(value = "select s from CorpStockPO s  join (select m from TMCorpCorpStockPO m where m.org=? and m.id=? and m.seqId=?) t on s.corpKey.org=t.subOrg and s.corpKey.id = t.id and s.corpKey.seqId=t.seqId")
     List<CorpStockPO> findByCorp(int org,int id,int seqId);
 }
