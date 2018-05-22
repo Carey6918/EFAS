@@ -38,4 +38,13 @@ public class CorpController {
         else
             return new ResultBundle(false, "这个企业没有股东");
     }
+    @RequestMapping("/search")
+    public ResultBundle<List<CorpPO>> searchByName(String name) {
+        List<CorpPO> corpPOList = corpService.getCorpByName(name);
+        if (!corpPOList.isEmpty())
+            return new ResultBundle(corpPOList);
+        else
+            return new ResultBundle(false, "没有相关企业");
+    }
+
 }

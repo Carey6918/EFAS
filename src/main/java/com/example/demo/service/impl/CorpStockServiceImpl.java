@@ -16,6 +16,13 @@ public class CorpStockServiceImpl implements CorpStockService {
     @Autowired
     CorpStockDao corpStockDao;
 
+    /**
+     * 定期计算股权百分比
+     *
+     * @param org
+     * @param id
+     * @param seqId
+     */
     @Override
     public void countPercent(Integer org, Integer id, Integer seqId) {
         List<CorpStockPO> corpStockPOList = corpStockDao.findByCorp(org, id, seqId);
@@ -32,6 +39,14 @@ public class CorpStockServiceImpl implements CorpStockService {
         }
     }
 
+    /**
+     * 按入股从大到小的顺序返回企业的股东，第一为大股东
+     *
+     * @param org
+     * @param id
+     * @param seqId
+     * @return
+     */
     @Override
     public List<CorpStockVO> getStockStructure(Integer org, Integer id, Integer seqId) {
         List<CorpStockPO> corpStockPOList = corpStockDao.findByCorpAndSort(org, id, seqId);
