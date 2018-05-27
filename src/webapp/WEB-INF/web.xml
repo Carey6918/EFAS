@@ -21,8 +21,6 @@
     <servlet>
         <servlet-name>springmvc</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-        <!-- contextConfigLocation配置springmvc加载的配置文件（配置映射器处理器，适配器等）
-         如果不配置，加载的是/WEB-INF/servlet名称-servlet.xml-->
         <init-param>
             <param-name>contextConfigLocation</param-name>
             <param-value>classpath:springmvc.xml</param-value>
@@ -32,7 +30,7 @@
 
     <servlet-mapping>
         <servlet-name>springmvc</servlet-name>
-        <url-pattern>/MRAS/*</url-pattern>
+        <url-pattern>/</url-pattern>
     </servlet-mapping>
 
     <!--session生命周期设置-->
@@ -60,7 +58,7 @@
 
     <!--欢迎页-->
     <welcome-file-list>
-        <welcome-file>index.jsp</welcome-file>
+        <welcome-file>/view/index.jsp</welcome-file>
     </welcome-file-list>
 
     <!--&lt;!&ndash;404页面&ndash;&gt;-->

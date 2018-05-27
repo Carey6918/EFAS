@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "t_corp_dist", schema = "enterprise", catalog = "")
+@Table(name = "T_CORP_DIST", schema = "enterprise", catalog = "")
 public class CorpDistPO {
     private CorpKey corpKey;
     private String distRegNo;

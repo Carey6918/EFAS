@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.Objects;
 
 @Entity
-@Table(name = "t_corp_stock", schema = "enterprise", catalog = "")
+@Table(name = "T_CORP_STOCK", schema = "enterprise", catalog = "")
 public class CorpStockPO implements Serializable {
     private static final long serialVersionUID = 3176972128965536017L;
     private CorpKey corpKey;

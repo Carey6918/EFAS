@@ -10,17 +10,17 @@
 	 http://www.springframework.org/schema/mvc
 	 http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
 
-    <context:component-scan base-package="com.edu.nju.wel.model" />
-    <context:component-scan base-package="com.edu.nju.wel.dao" />
-    <context:component-scan base-package="com.edu.nju.wel.service"/>
-    <context:component-scan base-package="com.edu.nju.wel.util"/>
-    <context:component-scan base-package="test"/>
+    <context:component-scan base-package="demo.config" />
+    <context:component-scan base-package="demo.dao" />
+    <context:component-scan base-package="demo.model"/>
+    <context:component-scan base-package="demo.service"/>
+    <context:component-scan base-package="demo.service"/>
 
 
     <!-- 激活@Controller模式 -->
     <mvc:annotation-driven/>
     <!-- 对包中的所有类进行扫描，以完成Bean创建和自动依赖注入的功能 需要更改 -->
-    <context:component-scan base-package="com.edu.nju.wel.controller"/>
+    <context:component-scan base-package="demo.controller"/>
 
     <!-- 声明一个拦截器 -->
     <!--<mvc:interceptors>-->
@@ -68,9 +68,11 @@
         <!--</mvc:interceptor>-->
     <!--</mvc:interceptors>-->
 
-    <bean id="viewResolver"
-          class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name="prefix" value="/view/"/>
-        <property name="suffix" value=".jsp"/>
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+          id="internalResourceViewResolver">
+        <!-- 前缀 -->
+        <property name="prefix" value="/WEB-INF/jsp/" />
+        <!-- 后缀 -->
+        <property name="suffix" value=".jsp" />
     </bean>
 </beans>

@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "t_corp_pertains", schema = "enterprise", catalog = "")
+@Table(name = "T_CORP_PERTAINS", schema = "enterprise", catalog = "")
 public class CorpPertainsPO {
     private CorpKey corpKey;
     private String cretificateType;

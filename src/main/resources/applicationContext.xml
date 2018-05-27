@@ -10,10 +10,10 @@
                          http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 
     <context:property-placeholder location="classpath:jdbc.properties" />
-    <!--<context:component-scan base-package="com.edu.nju.wel.model" />-->
-    <!--<context:component-scan base-package="com.edu.nju.wel.dao" />-->
-    <!--<context:component-scan base-package="com.edu.nju.wel.service"/>-->
-    <!--<context:component-scan base-package="com.edu.nju.wel.util"/>-->
+    <context:component-scan base-package="demo.model" />
+    <context:component-scan base-package="demo.dao" />
+    <context:component-scan base-package="demo.service"/>
+    <context:component-scan base-package="demo.util"/>
 
     <context:component-scan base-package="demo.*">
         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />

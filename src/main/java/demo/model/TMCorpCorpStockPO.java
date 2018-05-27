@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "t_m_corp_corp_stock", schema = "enterprise", catalog = "")
+@Table(name = "T_M_CORP_CORP_STOCK", schema = "enterprise", catalog = "")
 public class TMCorpCorpStockPO {
     private Integer id;
     private Integer seqId;
