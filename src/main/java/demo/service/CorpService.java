@@ -8,4 +8,6 @@ public interface CorpService {
 
     CorpPO getCorpByKey(Integer org,Integer id,Integer seqId);
     List<CorpPO> getCorpByName(String name);
+
+    List<CorpPO> getAllCorp();
 }

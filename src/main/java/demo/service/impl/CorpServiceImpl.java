@@ -33,8 +33,11 @@ public class CorpServiceImpl implements CorpService {
      */
     @Override
     public List<CorpPO> getCorpByName(String name) {
-        return corpDao.findByCorpName("%"+name+"%");
+        return corpDao.findLikeCorpName("%"+name+"%");
     }
 
-
+    @Override
+    public List<CorpPO> getAllCorp(){
+        return corpDao.findAll();
+    }
 }

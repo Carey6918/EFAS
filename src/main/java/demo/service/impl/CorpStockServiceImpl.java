@@ -1,8 +1,8 @@
 package demo.service.impl;
 
+import demo.dao.CorpDao;
 import demo.dao.CorpStockDao;
-import demo.model.CorpStockPO;
-import demo.model.CorpStockVO;
+import demo.model.*;
 import demo.service.CorpStockService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +15,8 @@ import java.util.List;
 public class CorpStockServiceImpl implements CorpStockService {
     @Autowired
     CorpStockDao corpStockDao;
+    @Autowired
+    CorpDao corpDao;
 
     /**
      * 定期计算股权百分比
@@ -60,4 +62,30 @@ public class CorpStockServiceImpl implements CorpStockService {
         return corpStockVOList;
     }
 
+    @Override
+    public InnerStockVO getInnerStock(Integer org, Integer id, Integer seqId){
+        CorpPO corpPO = corpDao.findByCorpKeyOrgAndCorpKeyIdAndCorpKeySeqId(org,id,seqId);
+//        List<CorpStockPO> corpStockPOList = corpStockDao.findByCorpAndSort(org, id, seqId);
+        InnerStockVO root = new InnerStockVO(corpPO.getCorpName(),null);
+        reverseInnerStock(root);
+        return root;
+    }
+    public void reverseInnerStock(InnerStockVO innerStockVO){
+
+        CorpPO corpPO = corpDao.findByCorpName(innerStockVO.getName());
+        if (corpPO==null)
+            return;
+        CorpKey corpKey = corpPO.getCorpKey();
+        List<CorpStockPO> corpStockPOList = corpStockDao.findByCorp(corpKey.getOrg(),corpKey.getId(),corpKey.getSeqId());
+        if(corpStockPOList==null)
+            return;
+        for (CorpStockPO corpStockPO:corpStockPOList){
+            InnerStockVO vo = new InnerStockVO(corpStockPO.getStockName(), corpStockPO.getStockPercent());
+
+            if(corpStockPO.getStockType().equals("企业")) {
+                 reverseInnerStock(vo);
+            }
+            innerStockVO.addChildren(vo);
+        }
+    }
 }
