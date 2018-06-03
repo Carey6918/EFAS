@@ -1,0 +1,17 @@
+#searchButton{
+    width: 43px;
+    height:30px;
+    background-color: #7a82ff;
+    vertical-align: middle;
+    color:white;
+}
+#searchText{
+    width:450px;
+    height:30px;
+    vertical-align: middle;
+}
+#colorTable{
+    border-color: #ededed;
+    border-collapse: collapse;
+    border-width:0px 0px 0px 0px;
+}
