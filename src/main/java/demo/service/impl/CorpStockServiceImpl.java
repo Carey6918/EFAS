@@ -62,30 +62,74 @@ public class CorpStockServiceImpl implements CorpStockService {
         return corpStockVOList;
     }
 
+    /**
+     * 获取某个公司的股东树关系
+     *
+     * @param org
+     * @param id
+     * @param seqId
+     * @return
+     */
     @Override
-    public InnerStockVO getInnerStock(Integer org, Integer id, Integer seqId){
-        CorpPO corpPO = corpDao.findByCorpKeyOrgAndCorpKeyIdAndCorpKeySeqId(org,id,seqId);
-//        List<CorpStockPO> corpStockPOList = corpStockDao.findByCorpAndSort(org, id, seqId);
-        InnerStockVO root = new InnerStockVO(corpPO.getCorpName(),null);
+    public InnerStockVO getInnerStock(Integer org, Integer id, Integer seqId) {
+        CorpPO corpPO = corpDao.findByCorpKeyOrgAndCorpKeyIdAndCorpKeySeqId(org, id, seqId);
+        InnerStockVO root = new InnerStockVO(corpPO.getCorpName(), null);
         reverseInnerStock(root);
         return root;
     }
-    public void reverseInnerStock(InnerStockVO innerStockVO){
+
+    /**
+     * 根据递归实现股东树的连接
+     *
+     * @param innerStockVO
+     */
+    public void reverseInnerStock(InnerStockVO innerStockVO) {
 
         CorpPO corpPO = corpDao.findByCorpName(innerStockVO.getName());
-        if (corpPO==null)
+        if (corpPO == null)
             return;
         CorpKey corpKey = corpPO.getCorpKey();
-        List<CorpStockPO> corpStockPOList = corpStockDao.findByCorp(corpKey.getOrg(),corpKey.getId(),corpKey.getSeqId());
-        if(corpStockPOList==null)
+        List<CorpStockPO> corpStockPOList = corpStockDao.findByCorp(corpKey.getOrg(), corpKey.getId(), corpKey.getSeqId());
+        if (corpStockPOList == null)
             return;
-        for (CorpStockPO corpStockPO:corpStockPOList){
+        for (CorpStockPO corpStockPO : corpStockPOList) {
             InnerStockVO vo = new InnerStockVO(corpStockPO.getStockName(), corpStockPO.getStockPercent());
 
-            if(corpStockPO.getStockType().equals("企业")) {
-                 reverseInnerStock(vo);
+            if (corpStockPO.getStockType().equals("企业")) {
+                reverseInnerStock(vo);
             }
             innerStockVO.addChildren(vo);
         }
     }
+
+    /**
+     * 获取某个公司的对外投资关系
+     *
+     * @param org
+     * @param id
+     * @param seqId
+     * @return
+     */
+    @Override
+    public OuterStockVO getOuterStock(Integer org, Integer id, Integer seqId) {
+        CorpPO corpPO = corpDao.findByCorpKeyOrgAndCorpKeyIdAndCorpKeySeqId(org, id, seqId);
+        OuterStockVO root = new OuterStockVO(corpPO.getCorpName(), null);
+        reverseOuterStock(root);
+        return root;
+    }
+
+    public void reverseOuterStock(OuterStockVO outerStockVO) {
+        List<CorpStockPO> corpStockPOList = corpStockDao.findByStockName(outerStockVO.getName());
+        if (corpStockPOList == null)
+            return;
+        for (CorpStockPO corpStockPO : corpStockPOList) {
+            CorpPO corpPO = corpDao.findByStock(corpStockPO.getCorpKey().getOrg(), corpStockPO.getCorpKey().getId(), corpStockPO.getCorpKey().getSeqId());
+            if (corpPO != null) {
+                OuterStockVO vo = new OuterStockVO(corpPO.getCorpName(), corpStockPO.getStockPercent());
+                reverseOuterStock(vo);
+                outerStockVO.addChildren(vo);
+            }
+        }
+    }
+
 }

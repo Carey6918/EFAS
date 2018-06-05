@@ -21,6 +21,14 @@ public class CorpController {
     @Autowired
     CorpStockService corpStockService;
 
+    /**
+     * 根据主键返回一个公司的具体信息
+     *
+     * @param org
+     * @param id
+     * @param seqId
+     * @return
+     */
     @RequestMapping("/info")
     public ResultBundle<CorpPO> index(int org, int id, int seqId) {
         CorpPO po = corpService.getCorpByKey(org, id, seqId);
@@ -30,14 +38,29 @@ public class CorpController {
             return new ResultBundle(false, "没有这个企业");
     }
 
+    /**
+     * 返回某个企业的股权结构（最大股东，企业股东，自然人股东）
+     *
+     * @param org
+     * @param id
+     * @param seqId
+     * @return
+     */
     @RequestMapping("/stock")
     public ResultBundle<List<CorpStockVO>> stock(int org, int id, int seqId) {
-        List<CorpStockVO> corpStockVOList = corpStockService.getStockStructure(org,id,seqId);
+        List<CorpStockVO> corpStockVOList = corpStockService.getStockStructure(org, id, seqId);
         if (!corpStockVOList.isEmpty())
             return new ResultBundle(corpStockVOList);
         else
             return new ResultBundle(false, "这个企业没有股东");
     }
+
+    /**
+     * 根据关键词搜索名字返回企业列表
+     *
+     * @param name
+     * @return
+     */
     @RequestMapping("/search")
     public ResultBundle<List<CorpPO>> searchByName(String name) {
         List<CorpPO> corpPOList = corpService.getCorpByName(name);
