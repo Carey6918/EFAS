@@ -4,6 +4,7 @@ package demo.controller;
 import demo.model.AtlasVO;
 import demo.model.CorpPO;
 import demo.model.CorpStockVO;
+import demo.model.RelationVO;
 import demo.service.CorpService;
 import demo.service.CorpStockService;
 import demo.util.ResultBundle;
@@ -82,5 +83,10 @@ public class CorpController {
     @RequestMapping("/atlas")
     public ResultBundle<AtlasVO> getAtlas(int org, int id, int seqId) {
         return new ResultBundle(corpService.getAtlas(org, id, seqId));
+    }
+
+    @RequestMapping("/relation")
+    public RelationVO getRelation(int org,int id,int seqId){
+        return corpService.getRelation(org,id,seqId);
     }
 }

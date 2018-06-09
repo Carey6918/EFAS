@@ -2,6 +2,7 @@ package demo.service;
 
 import demo.model.AtlasVO;
 import demo.model.CorpPO;
+import demo.model.RelationVO;
 
 import java.util.List;
 
@@ -13,4 +14,6 @@ public interface CorpService {
     List<CorpPO> getAllCorp();
 
     AtlasVO getAtlas(Integer org, Integer id, Integer seqId);
+
+    RelationVO getRelation(Integer org, Integer id, Integer seqId);
 }
