@@ -11,7 +11,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class GraphController {
     @RequestMapping("/tree")
-    public String tree(Integer org,Integer id,Integer seqId){
+    public String tree(){
         return "tree";
+    }
+
+    @RequestMapping("/atlas")
+    public String atlas(){
+        return "atlas";
     }
 }
