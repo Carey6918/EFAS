@@ -36,4 +36,8 @@ public class HelloWorldController {
     public String showEnterpriseInfoPage(){
         return "corpInfoPage";
     }
+    @RequestMapping("/corpList")
+    public String showEnterpriseListPage(){
+        return "corpListPage";
+    }
 }

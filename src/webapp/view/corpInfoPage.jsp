@@ -11,6 +11,7 @@
     <title>EFAS</title>
     <script type="text/javascript" src="/js/jquery.min.js"></script>
     <script type="text/javascript" src="/js/echarts.min.js"></script>
+    <script type="text/javascript" src="/js/searchEnterprise.js"></script>
     <link rel="stylesheet" href="/css/MainFrame.css"/>
     <script type="text/javascript">
         window.onload = function () {
@@ -75,7 +76,8 @@
             if(checkDate==null){
                 checkDate="无";
             }
-            if(formerName==null){
+            console.log("formerName:"+formerName);
+            if(!formerName){
                 formerName="无";
             }
             document.getElementById("searchText").value = corpName;
@@ -101,8 +103,9 @@
 </head>
 <body>
 <div id="searchDiv" style="text-align: center;height:auto;">
-    <input type="text" id="searchText" style="font-size: 14px"/>
-    <button id="searchButton" value="搜索" onclick=searchEnterprise()>搜索</button>
+    <datalist id="enterList"></datalist>
+    <input type="text" id="searchText" onkeyup="getAllEnters()" list="enterList" style="font-size: 14px;"/>
+    <button id="searchButton" value="搜索" onclick="searchEnterprise()">搜索</button>
 </div>
 <div style="margin-left:480px;height: auto">
     <h3><label id="name" class="name"></label> </h3>
