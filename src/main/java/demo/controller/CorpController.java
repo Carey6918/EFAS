@@ -1,6 +1,7 @@
 package demo.controller;
 
 
+import demo.model.AtlasVO;
 import demo.model.CorpPO;
 import demo.model.CorpStockVO;
 import demo.service.CorpService;
@@ -70,4 +71,16 @@ public class CorpController {
             return new ResultBundle(false, "没有相关企业");
     }
 
+    /**
+     * 返回某个企业的图谱
+     *
+     * @param org
+     * @param id
+     * @param seqId
+     * @return
+     */
+    @RequestMapping("/atlas")
+    public ResultBundle<AtlasVO> getAtlas(int org, int id, int seqId) {
+        return new ResultBundle(corpService.getAtlas(org, id, seqId));
+    }
 }
