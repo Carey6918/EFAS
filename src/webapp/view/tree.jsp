@@ -14,18 +14,81 @@
     <script src="/js/jquery.min.js"></script>
 </head>
 <body>
-    <div id="main" style="height:400px;"></div>
+    <div id="inner" style="height:400px;"></div>
+    <br>
+    <div id="outer" style="height:400px;"></div>
     <script type="text/javascript">
-        var myChart = echarts.init(document.getElementById('main'));
-        myChart.showLoading();
+        var inner = echarts.init(document.getElementById('inner'));
+        inner.showLoading();
         $.get('/inner?org=876&id=120000&seqId=99', function (data) {
-            myChart.hideLoading();
+            inner.hideLoading();
 
             echarts.util.each(data.children, function (datum, index) {
                 index % 2 === 0 && (datum.collapsed = true);
             });
 
-            myChart.setOption(option = {
+            inner.setOption(option = {
+                title: {
+                    text: 'inner'
+                },
+                tooltip: {
+                    trigger: 'item',
+                    triggerOn: 'mousemove'
+                },
+                series: [
+                    {
+                        type: 'tree',
+
+                        data: [data],
+
+                        top: '1%',
+                        left: '7%',
+                        bottom: '1%',
+                        right: '20%',
+
+                        symbolSize: 7,
+
+                        label: {
+                            normal: {
+                                position: 'left',
+                                verticalAlign: 'middle',
+                                align: 'right',
+                                fontSize: 9
+                            }
+                        },
+
+                        leaves: {
+                            label: {
+                                normal: {
+                                    position: 'right',
+                                    verticalAlign: 'middle',
+                                    align: 'left'
+                                }
+                            }
+                        },
+
+                        expandAndCollapse: true,
+                        animationDuration: 550,
+                        animationDurationUpdate: 750
+                    }
+                ]
+            });
+        });
+    </script>
+    <script type="text/javascript">
+        var outer = echarts.init(document.getElementById('outer'));
+        outer.showLoading();
+        $.get('/outer?org=876&id=120000&seqId=99', function (data) {
+            outer.hideLoading();
+
+            echarts.util.each(data.children, function (datum, index) {
+                index % 2 === 0 && (datum.collapsed = true);
+            });
+
+            outer.setOption(option = {
+                title: {
+                    text: 'outer'
+                },
                 tooltip: {
                     trigger: 'item',
                     triggerOn: 'mousemove'
