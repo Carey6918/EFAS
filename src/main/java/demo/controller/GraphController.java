@@ -19,4 +19,9 @@ public class GraphController {
     public String atlas(){
         return "atlas";
     }
+
+    @RequestMapping("/relation")
+    public String relation(){
+        return "relation";
+    }
 }
