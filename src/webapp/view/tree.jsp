@@ -33,7 +33,9 @@
                 },
                 tooltip: {
                     trigger: 'item',
-                    triggerOn: 'mousemove'
+                    triggerOn: 'mousemove',
+                    //tooltip的字符串模板
+                    formatter: "{b}<br/>{c}<br/>"
                 },
                 series: [
                     {
@@ -59,6 +61,7 @@
 
                         leaves: {
                             label: {
+
                                 normal: {
                                     position: 'right',
                                     verticalAlign: 'middle',
