@@ -16,7 +16,7 @@
     <script src="../js/jquery.min.js"></script>
 </head>
 <body>
-    <div id="relation" style="height:400px;"></div>
+    <div id="relation" style="width: 100%;height:800px;"></div>
     <script type="text/javascript">
         require.config({
             paths: {
@@ -96,8 +96,8 @@
                                         linkStyle: {}
                                     }
                                 },
-                                minRadius: 15,
-                                maxRadius: 25,
+                                minRadius: 200,
+                                maxRadius: 250,
                                 gravity: 1.1,
                                 scaling: 1.2,
                                 draggable: false,
