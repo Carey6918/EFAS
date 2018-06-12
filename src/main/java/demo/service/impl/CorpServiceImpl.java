@@ -1,6 +1,7 @@
 package demo.service.impl;
 
 import demo.dao.CorpDao;
+import demo.dao.CorpDistDao;
 import demo.dao.CorpPertainsDao;
 import demo.dao.CorpStockDao;
 import demo.model.*;
@@ -19,6 +20,8 @@ public class CorpServiceImpl implements CorpService {
     CorpStockDao corpStockDao;
     @Autowired
     CorpPertainsDao corpPertainsDao;
+    @Autowired
+    CorpDistDao corpDistDao;
 
     /**
      * 根据主键获取企业
@@ -88,6 +91,14 @@ public class CorpServiceImpl implements CorpService {
         return root;
     }
 
+    /**
+     * 获取公司之间的关系树
+     *
+     * @param org
+     * @param id
+     * @param seqId
+     * @return
+     */
     @Override
     public RelationVO getRelation(Integer org, Integer id, Integer seqId) {
         CorpPO corpPO = corpDao.findByCorpKeyOrgAndCorpKeyIdAndCorpKeySeqId(org, id, seqId);
@@ -95,37 +106,47 @@ public class CorpServiceImpl implements CorpService {
         List<RelationNodeVO> nodeList = new LinkedList<>();
         nodeList.add(root);
         List<RelationLinkVO> linkList = new LinkedList<>();
-        reverseRelation(root,nodeList,linkList);
-        RelationVO relationVO = new RelationVO(nodeList,linkList);
+        reverseRelation(root, nodeList, linkList);
+        RelationVO relationVO = new RelationVO(nodeList, linkList);
         return relationVO;
     }
 
 
-
+    /**
+     * 根据自然人和企业，递归寻找关系
+     *
+     * @param node
+     * @param nodeList
+     * @param linkList
+     */
     public void reverseRelation(RelationNodeVO node, List<RelationNodeVO> nodeList, List<RelationLinkVO> linkList) {
         List<RelationNodeVO> addNode = new LinkedList<>();
+        List<RelationNodeVO> tempNodeList = new LinkedList<>();
+        List<RelationLinkVO> tempLinkList = new LinkedList<>();
         if (node.getCategory() == 0 || node.getCategory() == 1) {//公司
-            List<RelationNodeVO> tempNodeList = new LinkedList<>();
-            List<RelationLinkVO> tempLinkList = new LinkedList<>();
-            searchFromCorpRelation(node.getName(),tempNodeList,tempLinkList);
-            searchToCorpRelation(node.getName(),tempNodeList,tempLinkList);
-            // 检查是否有重复节点和边，如果没有，则列入结果集。
-            for (RelationNodeVO nodeVO:tempNodeList){
-                if (!nodeList.contains(nodeVO)){
-                    nodeList.add(nodeVO);
-                    addNode.add(nodeVO);
-                }
-            }
-            for (RelationLinkVO linkVO:tempLinkList){
-                if (!linkList.contains(linkVO)){
-                    linkList.add(linkVO);
-                }
-            }
-        } else if (node.getCategory() == 2) {//自然人
 
+            searchFromCorpRelation(node.getName(), tempNodeList, tempLinkList);
+            searchToCorpRelation(node.getName(), tempNodeList, tempLinkList);
+
+        } else if (node.getCategory() == 2) {//自然人
+            searchPeopleRelation(node.getName(), tempNodeList, tempLinkList);
         }
-        for (RelationNodeVO nodeVO:addNode){
-            reverseRelation(nodeVO,nodeList,linkList);
+        searchStockRelation(node.getName(), tempNodeList, tempLinkList);
+        // 检查是否有重复节点和边，如果没有，则列入结果集。
+        for (RelationNodeVO nodeVO : tempNodeList) {
+            if (!nodeList.contains(nodeVO)) {
+                nodeList.add(nodeVO);
+                addNode.add(nodeVO);
+            }
+        }
+        for (RelationLinkVO linkVO : tempLinkList) {
+            if (!linkList.contains(linkVO)) {
+                linkList.add(linkVO);
+            }
+        }
+        for (RelationNodeVO nodeVO : addNode) {
+            reverseRelation(nodeVO, nodeList, linkList);
+
         }
     }
 
@@ -137,11 +158,10 @@ public class CorpServiceImpl implements CorpService {
         if (corpPO == null) {
             return;
         }
-            tempNode = new RelationNodeVO(2, corpPO.getOperManName());
-            tempLink = new RelationLinkVO(name, corpPO.getOperManName(), "法人");
-            nodeList.add(tempNode);
-            linkList.add(tempLink);
-
+        tempNode = new RelationNodeVO(2, corpPO.getOperManName());
+        tempLink = new RelationLinkVO(name, corpPO.getOperManName(), "法人");
+        nodeList.add(tempNode);
+        linkList.add(tempLink);
 
         // 高管
         CorpKey corpKey = corpPO.getCorpKey();
@@ -167,10 +187,56 @@ public class CorpServiceImpl implements CorpService {
         }
 
         // 分支机构
-        // TODO
+        List<CorpDistPO> corpDistPOList = corpDistDao.findByCorp(corpKey.getOrg(), corpKey.getId(), corpKey.getSeqId());
+        for (CorpDistPO corpDistPO : corpDistPOList) {
+            tempNode = new RelationNodeVO(1, corpDistPO.getDistName());
+            tempLink = new RelationLinkVO(name, corpDistPO.getDistName(), "分支机构");
+            nodeList.add(tempNode);
+            linkList.add(tempLink);
+        }
     }
 
     public void searchToCorpRelation(String name, List<RelationNodeVO> nodeList, List<RelationLinkVO> linkList) {
+        RelationNodeVO tempNode;
+        RelationLinkVO tempLink;
+        // 作为别人的分支机构（父机构）
+        List<CorpDistPO> corpDistPOList = corpDistDao.findByDistName(name);
+        for (CorpDistPO corpDistPO : corpDistPOList) {
+            CorpPO corpPO = corpDao.findByDist(corpDistPO.getCorpKey().getOrg(), corpDistPO.getCorpKey().getId(), corpDistPO.getCorpKey().getSeqId());
+            if (corpPO != null) {
+                tempNode = new RelationNodeVO(1, corpPO.getCorpName());
+                tempLink = new RelationLinkVO(corpPO.getCorpName(), name, "分支机构");
+                nodeList.add(tempNode);
+                linkList.add(tempLink);
+            }
+        }
+    }
+
+    public void searchPeopleRelation(String name, List<RelationNodeVO> nodeList, List<RelationLinkVO> linkList) {
+        RelationNodeVO tempNode;
+        RelationLinkVO tempLink;
+        // 作为企业的法人
+        List<CorpPO> corpPOList = corpDao.findByOperManName(name);
+        for (CorpPO corpPO:corpPOList){
+            tempNode = new RelationNodeVO(1,corpPO.getCorpName());
+            tempLink = new RelationLinkVO(corpPO.getCorpName(),name,"法人");
+            nodeList.add(tempNode);
+            linkList.add(tempLink);
+        }
+        // 作为企业的高管
+        List<CorpPertainsPO> corpPertainsPOList = corpPertainsDao.findByPersonName(name);
+        for (CorpPertainsPO corpPertainsPO:corpPertainsPOList){
+            CorpPO corpPO = corpDao.findByPertains(corpPertainsPO.getCorpKey().getOrg(),corpPertainsPO.getCorpKey().getId(),corpPertainsPO.getCorpKey().getSeqId());
+            if (corpPO!=null){
+                tempNode = new RelationNodeVO(1,corpPO.getCorpName());
+                tempLink = new RelationLinkVO(corpPO.getCorpName(),name,corpPertainsPO.getPersonType());
+                nodeList.add(tempNode);
+                linkList.add(tempLink);
+            }
+        }
+    }
+
+    public void searchStockRelation(String name, List<RelationNodeVO> nodeList, List<RelationLinkVO> linkList) {
         // 作为别人的股东（对外投资）
         List<CorpStockPO> corpStockPOList = corpStockDao.findByStockName(name);
         RelationNodeVO tempNode;
@@ -184,8 +250,5 @@ public class CorpServiceImpl implements CorpService {
                 linkList.add(tempLink);
             }
         }
-
-        // 作为别人的分支机构（父机构）
-
     }
 }
