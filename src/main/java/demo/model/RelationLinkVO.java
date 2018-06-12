@@ -37,4 +37,11 @@ public class RelationLinkVO {
     public void setName(String name) {
         this.name = name;
     }
+    @Override
+    public boolean equals(Object o) {
+        return this.source.equals(((RelationLinkVO) o).source)&&
+                this.target.equals(((RelationLinkVO) o).target)&&
+                this.name.equals(((RelationLinkVO) o).name);
+    }
+
 }

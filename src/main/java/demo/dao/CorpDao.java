@@ -21,4 +21,10 @@ public interface CorpDao extends JpaRepository<CorpPO, CorpKey> {
 
     @Query(value = "select s from CorpPO s, TMCorpCorpStockPO m where m.subOrg=?1 and m.subId=?2 and m.subSeqId=?3 and s.corpKey.org=m.org and s.corpKey.id = m.id and s.corpKey.seqId=m.seqId")
     CorpPO findByStock(int org, int id, int seqId);
+    @Query(value = "select s from CorpPO s, TMCorpCorpDistPO m where m.subOrg=?1 and m.subId=?2 and m.subSeqId=?3 and s.corpKey.org=m.org and s.corpKey.id = m.id and s.corpKey.seqId=m.seqId")
+    CorpPO findByDist(int org, int id, int seqId);
+    @Query(value = "select s from CorpPO s, TMCorpCorpPertainsPO m where m.subOrg=?1 and m.subId=?2 and m.subSeqId=?3 and s.corpKey.org=m.org and s.corpKey.id = m.id and s.corpKey.seqId=m.seqId")
+    CorpPO findByPertains(int org, int id, int seqId);
+
+    List<CorpPO> findByOperManName(String name);
 }
