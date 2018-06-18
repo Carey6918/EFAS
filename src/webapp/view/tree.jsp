@@ -18,9 +18,13 @@
     <br>
     <div id="outer" style="height:400px;"></div>
     <script type="text/javascript">
+        var org = sessionStorage.getItem("org");
+        var id = sessionStorage.getItem("id");
+        var seqId = sessionStorage.getItem("seqId");
+        console.log(seqId);
         var inner = echarts.init(document.getElementById('inner'));
         inner.showLoading();
-        $.get('/inner?org=876&id=120000&seqId=99', function (data) {
+        $.get('/inner&id=' + id + '&org=' + org + '&seqId=' + seqId, function (data) {
             inner.hideLoading();
 
             echarts.util.each(data.children, function (datum, index) {
@@ -81,7 +85,7 @@
     <script type="text/javascript">
         var outer = echarts.init(document.getElementById('outer'));
         outer.showLoading();
-        $.get('/outer?org=876&id=120000&seqId=99', function (data) {
+        $.get('/outer&id=' + id + '&org=' + org + '&seqId=' + seqId, function (data) {
             outer.hideLoading();
 
             echarts.util.each(data.children, function (datum, index) {

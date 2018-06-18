@@ -14,6 +14,7 @@
         function search(){
             sessionStorage.setItem("corp",document.getElementById("searchText").value);
             window.location.href="/corpList";
+            sessionStorage.setItem("curPage",1);
         };
     </script>
 </head>

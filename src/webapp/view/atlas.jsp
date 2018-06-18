@@ -14,64 +14,69 @@
     <script src="/js/jquery.min.js"></script>
 </head>
 <body>
-    <div id="atlas" style="height:400px;"></div>
+<h3 style="text-align: center;margin-top:40px">投资图谱</h3>
+    <div id="atlas" style="height:400px;text-align: center"></div>
     <script type="text/javascript">
-        var atlas = echarts.init(document.getElementById('atlas'));
-        atlas.showLoading();
-        $.get('/atlas?org=876&id=120000&seqId=99', function (data) {
-            atlas.hideLoading();
+            var atlas = echarts.init(document.getElementById('atlas'));
+            atlas.showLoading();
+            var org = sessionStorage.getItem("org");
+            var id = sessionStorage.getItem("id");
+            var seqId = sessionStorage.getItem("seqId");
 
-            echarts.util.each(data.children, function (datum, index) {
-                index % 2 === 0 && (datum.collapsed = true);
-            });
+            $.get('/atlas?&id=' + id + '&org=' + org + '&seqId=' + seqId, function (data) {
+                atlas.hideLoading();
 
-            atlas.setOption(option = {
-                title: {
-                    text: 'atlas'
-                },
-                tooltip: {
-                    trigger: 'item',
-                    triggerOn: 'mousemove'
-                },
-                series: [
-                    {
-                        type: 'tree',
+                echarts.util.each(data.children, function (datum, index) {
+                    index % 2 === 0 && (datum.collapsed = true);
+                });
 
-                        data: [data.object],
+                atlas.setOption(option = {
+//                title: {
+//                    text: 'atlas'
+//                },
+                    tooltip: {
+                        trigger: 'item',
+                        triggerOn: 'mousemove'
+                    },
+                    series: [
+                        {
+                            type: 'tree',
 
-                        top: '1%',
-                        left: '7%',
-                        bottom: '1%',
-                        right: '20%',
+                            data: [data.object],
 
-                        symbolSize: 7,
+                            top: '0%',
+                            left: '23%',
+                            bottom: '1%',
+                            right: '25%',
 
-                        label: {
-                            normal: {
-                                position: 'left',
-                                verticalAlign: 'middle',
-                                align: 'right',
-                                fontSize: 9
-                            }
-                        },
+                            symbolSize: 7,
 
-                        leaves: {
                             label: {
                                 normal: {
-                                    position: 'right',
+                                    position: 'left',
                                     verticalAlign: 'middle',
-                                    align: 'left'
+                                    align: 'right',
+                                    fontSize: 14
                                 }
-                            }
-                        },
+                            },
 
-                        expandAndCollapse: true,
-                        animationDuration: 550,
-                        animationDurationUpdate: 750
-                    }
-                ]
+                            leaves: {
+                                label: {
+                                    normal: {
+                                        position: 'right',
+                                        verticalAlign: 'middle',
+                                        align: 'left'
+                                    }
+                                }
+                            },
+
+                            expandAndCollapse: true,
+                            animationDuration: 550,
+                            animationDurationUpdate: 750
+                        }
+                    ]
+                });
             });
-        });
     </script>
 </body>
 </html>

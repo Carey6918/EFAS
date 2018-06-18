@@ -16,8 +16,12 @@
     <script src="../js/jquery.min.js"></script>
 </head>
 <body>
-    <div id="relation" style="width: 100%;height:800px;"></div>
+<h3 style="text-align: center;">疑似关系图</h3>
+    <div id="relation" style="width: 80%;height:800px;"></div>
     <script type="text/javascript">
+        var org = sessionStorage.getItem("org");
+        var id = sessionStorage.getItem("id");
+        var seqId = sessionStorage.getItem("seqId");
         require.config({
             paths: {
                 echarts: '../js/echarts'
@@ -30,28 +34,29 @@
             ],
             function (ec) {
                 var myChart = ec.init(document.getElementById('relation'));
-                $.get('/relation?org=876&id=120000&seqId=99', function (data) {
+                $.get('/relation?&id=' + id + '&org=' + org + '&seqId=' + seqId, function (data) {
                     option = {
-                        title: {
-                            text: '疑似关系图',
-                            subtext: 'subtext',
-                            x: 'right',
-                            y: 'bottom'
-                        },
+//                        title: {
+//                            text: '疑似关系图',
+////                            subtext: 'subtext',
+//                            x: 'center',
+//                            y: 'top'
+//                        },
                         tooltip: {
                             trigger: 'item',
                             formatter: '{a} : {b}'
                         },
-                        toolbox: {
-                            show: true,
-                            feature: {
-                                restore: {show: true},
-                                magicType: {show: true, type: ['force', 'chord']},
-                                saveAsImage: {show: true}
-                            }
-                        },
+//                        toolbox: {
+//                            show: true,
+//                            feature: {
+//                                restore: {show: true},
+//                                magicType: {show: true, type: ['force', 'chord']},
+//                                saveAsImage: {show: true}
+//                            }
+//                        },
                         legend: {
-                            x: 'left',
+                            x: 'right',
+                            y:'top',
                             data: ['家人', '朋友']
                         },
                         series: [

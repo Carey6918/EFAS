@@ -15,6 +15,9 @@ function searchEnterprise() {
         success: function (result) {
             var enterpriseInformation = result.object[index];
             console.log(enterpriseInformation);
+            var org = enterpriseInformation.corpKey.org;
+            var id = enterpriseInformation.corpKey.id;
+            var seqId = enterpriseInformation.corpKey.seqId;
             var addr = enterpriseInformation.addr;
             var admitMain = enterpriseInformation.admitMain;
             var belongDistOrg = enterpriseInformation.belongDistOrg;
@@ -42,6 +45,9 @@ function searchEnterprise() {
             var fareTermEnd = enterpriseInformation.fareTermEnd;
             var formerName = enterpriseInformation.formerName;
 
+            sessionStorage.setItem("org",org);
+            sessionStorage.setItem("id",id);
+            sessionStorage.setItem("seqId",seqId);
             sessionStorage.setItem("fareTermStart", fareTermStart);
             sessionStorage.setItem("fareTermEnd", fareTermEnd);
             sessionStorage.setItem("formerName", formerName);
@@ -70,7 +76,8 @@ function searchEnterprise() {
             sessionStorage.setItem("tel", tel);
             sessionStorage.setItem("webUrl", webUrl);
 
-            window.location.href = "/corpInfo";
+            window.location.href="/corpInfo";
+
         },
         error: function (msg) {
             alert("msg: " + msg);

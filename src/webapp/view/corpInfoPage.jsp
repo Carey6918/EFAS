@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="/css/MainFrame.css"/>
     <script type="text/javascript">
         window.onload = function () {
+
             var addr = sessionStorage.getItem("addr");
             var admitMain = sessionStorage.getItem("admitMain");
             var belongDistOrg = sessionStorage.getItem("belongDistOrg");
@@ -39,7 +40,10 @@
             var startDate = sessionStorage.getItem("startDate");
             var uniScid = sessionStorage.getItem("uniScid");
             var fareTermStart = sessionStorage.getItem("fareTermStart");
-            var formerName = sessionStorage.getItem("formerName");
+            var formerName = "无";
+            if(!sessionStorage.getItem("formerName")){
+                formerName=sessionStorage.getItem("formerName");
+            }
             var fareTermEnd = sessionStorage.getItem("fareTermEnd");
 
             document.getElementById("tel").innerHTML = tel;
@@ -76,10 +80,7 @@
             if(checkDate==null){
                 checkDate="无";
             }
-            console.log("formerName:"+formerName);
-            if(!formerName){
-                formerName="无";
-            }
+
             document.getElementById("searchText").value = corpName;
             document.getElementById("startDate").innerHTML = startDate;
             document.getElementById("corpStatus").innerHTML = corpState;
@@ -98,14 +99,19 @@
             document.getElementById("belongDistOrg").innerHTML = belongDistOrg;
             document.getElementById("belongTrade").innerHTML = belongTrade;
             document.getElementById("fareScope").innerHTML = fareScope;
-        }
+        };
+
+        function search(){
+            sessionStorage.setItem("corp",document.getElementById("searchText").value);
+            window.location.href="/corpList";
+        };
     </script>
 </head>
 <body>
 <div id="searchDiv" style="text-align: center;height:auto;">
     <datalist id="enterList"></datalist>
     <input type="text" id="searchText" onkeyup="getAllEnters()" list="enterList" style="font-size: 14px;"/>
-    <button id="searchButton" value="搜索" onclick="searchEnterprise()">搜索</button>
+    <button id="searchButton" value="搜索" onclick="search()">搜索</button>
 </div>
 <div style="margin-left:480px;height: auto">
     <h3><label id="name" class="name"></label> </h3>
@@ -186,5 +192,8 @@
         </tr></br>
     </table>
 </div>
+<div style="margin-bottom: 50px"><jsp:include page="atlas.jsp"/></div>
+<div style="margin-bottom: 50px"><jsp:include page="relation.jsp"/></div>
+<div style="margin-bottom: 50px"><jsp:include page="tree.jsp"/></div>
 </body>
 </html>
