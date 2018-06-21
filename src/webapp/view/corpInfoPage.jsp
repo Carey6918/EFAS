@@ -192,6 +192,7 @@
         </tr></br>
     </table>
 </div>
+<div style="margin-bottom: 50px"><jsp:include page="stockStruction.jsp"/></div>
 <div style="margin-bottom: 50px"><jsp:include page="atlas.jsp"/></div>
 <div style="margin-bottom: 50px"><jsp:include page="relation.jsp"/></div>
 <div style="margin-bottom: 50px"><jsp:include page="tree.jsp"/></div>

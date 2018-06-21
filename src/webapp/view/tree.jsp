@@ -21,7 +21,6 @@
         var org = sessionStorage.getItem("org");
         var id = sessionStorage.getItem("id");
         var seqId = sessionStorage.getItem("seqId");
-        console.log(seqId);
         var inner = echarts.init(document.getElementById('inner'));
         inner.showLoading();
         $.get('/inner&id=' + id + '&org=' + org + '&seqId=' + seqId, function (data) {
