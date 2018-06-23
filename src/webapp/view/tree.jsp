@@ -14,6 +14,7 @@
     <script src="/js/jquery.min.js"></script>
 </head>
 <body>
+<h3>投资族谱</h3>
     <div id="inner" style="height:400px;"></div>
     <br>
     <div id="outer" style="height:400px;"></div>
@@ -23,7 +24,7 @@
         var seqId = sessionStorage.getItem("seqId");
         var inner = echarts.init(document.getElementById('inner'));
         inner.showLoading();
-        $.get('/inner&id=' + id + '&org=' + org + '&seqId=' + seqId, function (data) {
+        $.get('/inner?id=' + id + '&org=' + org + '&seqId=' + seqId, function (data) {
             inner.hideLoading();
 
             echarts.util.each(data.children, function (datum, index) {
@@ -31,9 +32,9 @@
             });
 
             inner.setOption(option = {
-                title: {
-                    text: 'inner'
-                },
+//                title: {
+//                    text: 'inner'
+//                },
                 tooltip: {
                     trigger: 'item',
                     triggerOn: 'mousemove',
@@ -47,9 +48,9 @@
                         data: [data],
 
                         top: '1%',
-                        left: '7%',
+                        left: '23%',
                         bottom: '1%',
-                        right: '20%',
+                        right: '25%',
 
                         symbolSize: 7,
 
@@ -58,7 +59,7 @@
                                 position: 'left',
                                 verticalAlign: 'middle',
                                 align: 'right',
-                                fontSize: 9
+                                fontSize: 14
                             }
                         },
 
@@ -84,7 +85,7 @@
     <script type="text/javascript">
         var outer = echarts.init(document.getElementById('outer'));
         outer.showLoading();
-        $.get('/outer&id=' + id + '&org=' + org + '&seqId=' + seqId, function (data) {
+        $.get('/outer?id=' + id + '&org=' + org + '&seqId=' + seqId, function (data) {
             outer.hideLoading();
 
             echarts.util.each(data.children, function (datum, index) {
@@ -92,9 +93,9 @@
             });
 
             outer.setOption(option = {
-                title: {
-                    text: 'outer'
-                },
+//                title: {
+//                    text: 'outer'
+//                },
                 tooltip: {
                     trigger: 'item',
                     triggerOn: 'mousemove',
@@ -108,9 +109,9 @@
                         data: [data],
 
                         top: '1%',
-                        left: '7%',
+                        left: '23%',
                         bottom: '1%',
-                        right: '20%',
+                        right: '25%',
 
                         symbolSize: 7,
 
@@ -119,7 +120,7 @@
                                 position: 'left',
                                 verticalAlign: 'middle',
                                 align: 'right',
-                                fontSize: 9
+                                fontSize: 14
                             }
                         },
 
