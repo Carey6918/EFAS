@@ -116,11 +116,24 @@
 <div style="margin-left:480px;height: auto">
     <h3><label id="name" class="name"></label> </h3>
     <table>
-        <tr><label>电话：</label><label id="tel" class="tel"></label></tr><br>
-        <tr><label>官网：</label><label id="webUrl" class="webUrl"></label></tr><br>
-        <tr><label>地址：</label><label id="addr" class="addr"></label></tr><br>
-        <tr><label>邮箱：</label><label id="email" class="email"></label></tr><br>
+        <tr>
+            <td>
+             <div>
+                 <img src="/css/iii.png" alt="暂无图片" width="115px"/>
+                 <br>
+             </div>
+            </td>
+            <td>
+                <table>
+                    <tr><label>电话：</label><label id="tel" class="tel"></label></tr><br>
+                    <tr><label>官网：</label><label id="webUrl" class="webUrl"></label></tr><br>
+                    <tr><label>地址：</label><label id="addr" class="addr"></label></tr><br>
+                    <tr><label>邮箱：</label><label id="email" class="email"></label></tr><br>
+                </table>
+            </td>
+        </tr>
     </table>
+
 </div>
 <div style="text-align: center;margin-top:-180px">
     <table id="colorTable" border="1" cellpadding="0"  style="width: 800px;margin:auto">
@@ -194,7 +207,7 @@
 </div>
 <div style="margin-bottom: 50px"><jsp:include page="stockStruction.jsp"/></div>
 <div style="margin-bottom: 50px;text-align:center"><jsp:include page="atlas.jsp"/></div>
-<div style="margin-bottom: 50px;text-align:center"><jsp:include page="relation.jsp"/></div>
 <div style="margin-bottom: 50px;text-align:center"><jsp:include page="tree.jsp"/></div>
+<div style="margin-bottom: 50px;text-align:center"><jsp:include page="relation.jsp"/></div>
 </body>
 </html>

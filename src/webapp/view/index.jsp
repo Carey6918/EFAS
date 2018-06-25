@@ -12,9 +12,15 @@
             console.log(errorInfo);
         };
         function search(){
-            sessionStorage.setItem("corp",document.getElementById("searchText").value);
-            window.location.href="/corpList";
-            sessionStorage.setItem("curPage",1);
+            var text = document.getElementById("searchText").value;
+            if(text!=null&&text!=""){
+                sessionStorage.setItem("corp", text);
+//            sessionStorage.setItem("curPage",1);
+                window.location.href = "/corpList";
+            }
+            else {
+                alert("输入不能为空");
+            }
         };
     </script>
 </head>

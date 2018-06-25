@@ -57,23 +57,23 @@
                         legend: {
                             x: 'right',
                             y:'top',
-                            data: ['家人', '朋友']
+                            data: ['企业', '股东']
                         },
                         series: [
                             {
                                 type: 'force',
-                                name: "人物关系",
+                                name: "疑似关系",
                                 ribbonType: false,
                                 categories: [
                                     {
                                         name: '人物'
                                     },
                                     {
-                                        name: '家人',
+                                        name: '企业',
                                         symbol: 'diamond'
                                     },
                                     {
-                                        name: '朋友'
+                                        name: '股东'
                                     }
                                 ],
                                 itemStyle: {

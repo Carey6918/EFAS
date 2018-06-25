@@ -30,14 +30,19 @@
     var len = 0;
     window.onload = divide();
     function search(){
-        sessionStorage.setItem("corp",document.getElementById("searchText").value);
-        window.location.href="/corpList";
+        var text = document.getElementById("searchText").value;
+        if(text!=null&&text!=""){
+            sessionStorage.setItem("corp", text);
+            window.location.href = "/corpList";
+        }
+        else {
+            alert("输入不能为空");
+        }
     };
     function divide(){
         sessionStorage.setItem("curPage",1);
         var searchInput = sessionStorage.getItem("corp");
         $("#searchText").val(searchInput);
-        console.log("searchInput:"+searchInput);
         $.ajax({
             type: "get",
             async: false,
@@ -45,8 +50,6 @@
             dataType: "json",
             data: {"name": searchInput},
             success: function (result) {
-                console.log(result.isSuccess);
-                console.log(result.errorInfo);
                 var judge = result.isSuccess;
                 var errorMessage = result.errorInfo;
                 if (errorMessage != null) {
@@ -54,11 +57,9 @@
                 }
                 else {
                     len = result.object.length;
-                    console.log(len);
                     for(var i=0;i<len;i++){
                         arr[i]=result.object[i];
                     }
-                    console.log(arr);
                     var curPage = sessionStorage.getItem("curPage");
                     var div = dividePage(len,curPage,10);
                     $("#enterListDiv").empty();
@@ -87,15 +88,12 @@
     function dividePage(len,curPage,psize){
         var div = document.createElement("div");
         div.style.textAlign="center";
+        div.style.marginLeft="450px";
         var pages = parseInt(len/psize)+1;
-        console.log("curPage:"+curPage);
-        console.log("pages:"+pages);
         var edge = 0;
 
         if(pages==1){
             edge = len%psize;
-            console.log("余数："+edge);
-
             document.getElementById("backPage").style.display="none";
             document.getElementById("frontPage").style.display="none";
         }
@@ -109,7 +107,6 @@
             }
             if(curPage==pages){
                 edge = len%psize+(curPage-1)*psize;
-                console.log("余数:"+edge);
                 document.getElementById("frontPage").style.display="none";
             }
             else{
@@ -120,14 +117,6 @@
         for (var i = (curPage-1)*psize; i < edge; i++) {
             var indiv = document.createElement("div");
             indiv.style.textAlign = "left";
-            indiv.style.border = "1px";
-            indiv.style.borderStyle = "solid";
-            indiv.style.borderColor = "#dcdcdc";
-            indiv.style.marginTop = "20px";
-            indiv.style.marginLeft = "365px";
-            indiv.style.paddingLeft = "200px";
-            indiv.style.marginRight = "365px";
-            indiv.style.paddingBottom = "10px";
 
             var corpName = arr[i].corpName;
             var corpStatus = arr[i].corpStatus;//经营状态
@@ -149,13 +138,27 @@
             else if (corpStatus == "04") {
                 corpState = "迁出";
             }
-            indiv.innerHTML = '<p></p><input type="button" ' + ' id="' + i + '"' + ' style="outline:none;font-size: 18px;border:0px;margin:0;padding:0;cursor:hand"' + '  value="' + corpName + '" onclick="selectOneEnter(this)"/>'
+            indiv.innerHTML = '<input type="button" ' + ' id="' + i + '"' + ' style="outline:none;font-size: 18px;border:0px;margin:0;padding:0;cursor:hand"' + '  value="' + corpName + '" onclick="selectOneEnter(this)"/>'
                 + '<Button style="outline: none;color:rgb(255,215,80);background-color:white;border-color:rgb(255,215,80)">' + corpState + '</Button>' +
-                '<p></p><label style="font-size: 12px">注册资本:' + regCapi + '</label><p style="font-size: 5px"></p>' +
-                '<label style="font-size: 12px">注册时间:' + startDate + '</label><p style="font-size: 5px"></p>' +
-                '<label style="font-size: 12px">联系电话:' + tel + '</label><p style="font-size: 5px"></p>' +
+                '<br><label style="font-size: 12px">注册资本:' + regCapi + '</label><br>' +
+                '<label style="font-size: 12px">注册时间:' + startDate + '</label><br>' +
+                '<label style="font-size: 12px">联系电话:' + tel + '</label><br>' +
                 '<label style="font-size: 12px">所属地区:' + belongDistOrg + '</label>';
-            div.append(indiv);
+            var leftDiv = document.createElement("div");
+            leftDiv.innerHTML='<img src="/css/iii.png" alt="暂无图片"/> ';
+
+            var pdiv = document.createElement("table");
+            var tr = document.createElement("tr");
+            var td1 = document.createElement("td");
+            var td2 = document.createElement("td");
+            td1.append(leftDiv);
+            indiv.style.marginLeft="15px";
+            td2.append(indiv);
+            tr.append(td1);
+            tr.append(td2);
+            pdiv.append(tr);
+            pdiv.style.marginBottom="25px";
+            div.append(pdiv);
         }
         return div;
     }

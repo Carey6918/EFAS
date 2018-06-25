@@ -14,9 +14,10 @@
     <script src="/js/jquery.min.js"></script>
 </head>
 <body>
-<h3>投资族谱</h3>
+<h3>股东族谱</h3>
     <div id="inner" style="height:400px;"></div>
     <br>
+<h3>投资族谱</h3>
     <div id="outer" style="height:400px;"></div>
     <script type="text/javascript">
         var org = sessionStorage.getItem("org");
