@@ -145,7 +145,7 @@
                 '<label style="font-size: 12px">联系电话:' + tel + '</label><br>' +
                 '<label style="font-size: 12px">所属地区:' + belongDistOrg + '</label>';
             var leftDiv = document.createElement("div");
-            leftDiv.innerHTML='<img src="/css/iii.png" alt="暂无图片"/> ';
+            leftDiv.innerHTML='<img src="/css/iii.png" alt="暂无图片" width="130px"/> ';
 
             var pdiv = document.createElement("table");
             var tr = document.createElement("tr");
